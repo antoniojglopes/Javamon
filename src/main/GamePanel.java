@@ -21,8 +21,8 @@ public class GamePanel extends JPanel implements Runnable{
     private final int screenHeight = tileSize * maxScreenRow; //576
 
     //Character
-    int cX = 250;
-    int cY = 250;
+    int cX = 100;
+    int cY = 100;
     int cSpeed = 5;
 
     //FPS
@@ -82,19 +82,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
 
-        if(keyInput.upPressed) {
-            cY -= cSpeed;
-        }
-        if(keyInput.downPressed) {
-            cY += cSpeed;
-        }
-        if(keyInput.leftPressed) {
-            cX -= cSpeed;
-        }
-        if(keyInput.rightPressed) {
-            cX += cSpeed;
-        }
-
+        character.update();
     }
 
     public void paintComponent(Graphics g) {

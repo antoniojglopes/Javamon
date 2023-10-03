@@ -14,31 +14,36 @@ public class Character extends Element{
     public Character (GamePanel gamePanel, KeyInput keyInput) {
         this.gamePanel = gamePanel;
         this.keyInput = keyInput;
+
+        setDefaultPosition();
     }
 
     public void setDefaultPosition() {
-        x = 250;
-        y = 250;
+        x = 100;
+        y = 100;
         speed = 5;
     }
 
     public void update() {
-        if(keyInput.upPressed) {
+
+        if(keyInput.upPressed == true) {
             y -= speed;
         }
-        if(keyInput.downPressed) {
+        if(keyInput.downPressed == true) {
             y += speed;
         }
-        if(keyInput.leftPressed) {
+        if(keyInput.leftPressed == true) {
             x -= speed;
         }
-        if(keyInput.rightPressed) {
+        if(keyInput.rightPressed == true) {
             x += speed;
         }
     }
 
     public void draw(Graphics2D g2) {
+
         g2.setColor(Color.WHITE);
+
         g2.fillRect(x, y, gamePanel.tileSize, gamePanel.tileSize);
     }
 

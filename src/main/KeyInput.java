@@ -13,8 +13,6 @@ public class KeyInput implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
-        
-
     }
 
     @Override
