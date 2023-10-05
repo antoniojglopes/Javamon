@@ -1,6 +1,7 @@
 package elements;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,17 +15,29 @@ public class Character extends Element{
     GamePanel gamePanel;
     KeyInput keyInput;
 
+    public final int sX;
+    public final int sY;
+
     public Character (GamePanel gamePanel, KeyInput keyInput) {
         this.gamePanel = gamePanel;
         this.keyInput = keyInput;
+
+        sX = gamePanel.screenWidth / 2 - gamePanel.tileSize / 2;
+        sY = gamePanel.screenHeight / 2 - gamePanel.tileSize / 2;
+
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 26;
+        solidArea.width = 32;
+        solidArea.height = 24;
 
         setDefaultPosition();
         getCharacterSprite();
     }
 
     public void setDefaultPosition() {
-        x = 100;
-        y = 100;
+        wX = gamePanel.tileSize * 6;
+        wY = gamePanel.tileSize * 18;
         speed = 5;
         direction = "front";
     }
@@ -33,15 +46,16 @@ public class Character extends Element{
         System.out.println("Image loading started");
         try {
             // Load character sprites
-            up1 = ImageIO.read(getClass().getResourceAsStream("/character/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/character/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/character/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/character/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/character/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/character/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/character/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/character/boy_right_2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/character/character_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/character/character_up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/character/character_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/character/character_down_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/character/character_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/character/character_left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/character/character_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/character/character_right_2.png"));
             front = ImageIO.read(getClass().getResourceAsStream("/character/front.png"));
+            back = ImageIO.read(getClass().getResourceAsStream("/character/back.png"));
     
         // Handle any potential IO exceptions
         } catch (IOException e) {
@@ -55,21 +69,38 @@ public class Character extends Element{
         if(keyInput.upPressed == true || keyInput.downPressed == true || keyInput.leftPressed == true || keyInput.rightPressed == true) {
             
             if(keyInput.upPressed == true) {
-            direction = "up";
-            y -= speed;
+                direction = "up";
             }
             if(keyInput.downPressed == true) {
                 direction = "down";
-                y += speed;
                 }
             if(keyInput.leftPressed == true) {
                 direction = "left";
-                x -= speed;
                 }
             if(keyInput.rightPressed == true) {
                 direction = "right";
-                x += speed;
                 }
+            //check collision
+            collision = false;
+            gamePanel.collisionCheck.checker(this);
+            
+            //if collision is false, move
+            if(collision == false) {
+                switch(direction) {
+                    case "up":
+                        wY -= speed;
+                        break;
+                    case "down":
+                        wY += speed;
+                        break;
+                    case "left":
+                        wX -= speed;
+                        break;
+                    case "right":
+                        wX += speed;
+                        break;
+                }
+            }
 
             spriteCounter++;
             if(spriteCounter > 12) {
@@ -81,7 +112,14 @@ public class Character extends Element{
             }
         }
         else {
+            if(direction == "up")
+                direction = "back";
+            if(direction == "down")
             direction = "front";
+            if(direction == "left")
+            direction = "leftSide";
+            if(direction == "right")
+            direction = "rightSide";
         }  
     }
 
@@ -114,11 +152,20 @@ public class Character extends Element{
                 if(spriteNumber ==2)
                     sprite = right2;
                 break; 
-            default:
+            case "back":
+                sprite = back;
+                break;
+            case "front":
                 sprite = front;
-                break;   
+                break;
+            case "leftSide":
+                sprite = left1;
+                break;
+            case "rightSide":
+                sprite = right1;
+                break;
         }
-        g2.drawImage(sprite, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(sprite, sX, sY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 
 }
