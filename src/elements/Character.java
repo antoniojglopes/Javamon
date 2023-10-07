@@ -17,6 +17,7 @@ public class Character extends Element{
 
     public final int sX;
     public final int sY;
+    public int hasKey = 1;
 
     public Character (GamePanel gamePanel, KeyInput keyInput) {
         this.gamePanel = gamePanel;
@@ -28,6 +29,8 @@ public class Character extends Element{
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 26;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 24;
 
@@ -43,7 +46,6 @@ public class Character extends Element{
     }
 
     public void getCharacterSprite() {
-        System.out.println("Image loading started");
         try {
             // Load character sprites
             up1 = ImageIO.read(getClass().getResourceAsStream("/character/character_up_1.png"));
@@ -61,7 +63,6 @@ public class Character extends Element{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Image loading ended");
     }
 
     public void update() {
@@ -82,7 +83,10 @@ public class Character extends Element{
                 }
             //check collision
             collision = false;
-            gamePanel.collisionCheck.checker(this);
+            gamePanel.collisionCheck.checkElement(this);
+
+            int objIndex = gamePanel.collisionCheck.checkObject(this, true);
+            pickUpObject(objIndex);
             
             //if collision is false, move
             if(collision == false) {
@@ -121,6 +125,23 @@ public class Character extends Element{
             if(direction == "right")
             direction = "rightSide";
         }  
+    }
+
+    public void pickUpObject(int i) {
+        if(i != 999) {
+            
+            String objName = gamePanel.objects[i].name;
+
+            switch(objName) {
+                case "door":
+                    if(hasKey == 1) {
+                        //gamePanel.playSound(1);
+                        gamePanel.objects[i] = null;
+                        hasKey = 0;
+                    }
+                    break;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {

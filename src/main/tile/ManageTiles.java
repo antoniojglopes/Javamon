@@ -94,6 +94,7 @@ public class ManageTiles {
 
             if(wX + gamePanel.tileSize > gamePanel.character.wX - gamePanel.character.sX && wX - gamePanel.tileSize < gamePanel.character.wX + gamePanel.screenWidth &&
                 wY + gamePanel.tileSize > gamePanel.character.wY - gamePanel.character.sY && wY - gamePanel.tileSize < gamePanel.character.wY + gamePanel.screenHeight)
+                
             g2.drawImage(tiles[tileNum].image, sX, sY, gamePanel.tileSize, gamePanel.tileSize, null);
 
             worldcol++;
