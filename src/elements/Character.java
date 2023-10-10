@@ -17,7 +17,7 @@ public class Character extends Element{
 
     public final int sX;
     public final int sY;
-    public int hasKey = 1;
+    public int monsterscaught = 0;
 
     public Character (GamePanel gamePanel, KeyInput keyInput) {
         this.gamePanel = gamePanel;
@@ -133,12 +133,10 @@ public class Character extends Element{
             String objName = gamePanel.objects[i].name;
 
             switch(objName) {
-                case "door":
-                    if(hasKey == 1) {
-                        //gamePanel.playSound(1);
-                        gamePanel.objects[i] = null;
-                        hasKey = 0;
-                    }
+                case "monster":
+                    //gamePanel.playSound(1);
+                    gamePanel.objects[i] = null;
+                    monsterscaught++;
                     break;
             }
         }

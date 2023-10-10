@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Door extends Objects{
+public class Monster extends Objects{
     
-    public Door() {
+    public Monster() {
 
-        name = "door";
+        name = "monster";
         try{
-            sprite = ImageIO.read(getClass().getResourceAsStream("/objects/church10.png"));
+            sprite = ImageIO.read(getClass().getResourceAsStream("/objects/monster.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
