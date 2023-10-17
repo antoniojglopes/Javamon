@@ -53,4 +53,12 @@ public class Javamon extends Element{
     {
         hp = totalhp;
     }
+
+    public void ItemUse(Item item)
+    {
+        hp = hp + item.hpup;
+        attack = attack + item.attackup;
+        defense = defense + item.defenseup;
+        speed = speed + item.speedup;
+    }
 }
