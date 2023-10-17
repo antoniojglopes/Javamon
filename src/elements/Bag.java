@@ -1,6 +1,6 @@
 package elements;
 
-public class Bag {
+public class Bag {                              ////VER SE NAO HA PROBLEMAS COM O TAMNHO DO VETOR DE QUANTIDADE NO REMOVE ITEM
     Item bag[]; //array of items
     int quantity[];
 
