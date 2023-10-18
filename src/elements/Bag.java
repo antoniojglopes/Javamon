@@ -1,26 +1,24 @@
 package elements;
 
-public class Bag {                              ////VER SE NAO HA PROBLEMAS COM O TAMNHO DO VETOR DE QUANTIDADE NO REMOVE ITEM
+public class Bag {                              ////REFAER HA PROMAS COM O TAMNHO DO ARRAY
     Item bag[]; //array of items
     int quantity[];
 
-    public boolean ItemExists(Item item) {
+    public int ItemExists(Item item) {
         //check if item exists in array
         for(int i = 0; i < bag.length; i++){
             if(bag[i].name.equals(item.name)){
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     public void AddItem(Item item) {
-        if (ItemExists(item)) {
+        int index = ItemExists(item); 
+        if (index != -1) {
             //add item to array
-            for(int i = 0; i < bag.length; i++){
-                if(bag[i].name.equals(item.name))
-                    quantity[i]++;
-            }
+            quantity[index]++;
         } 
         else {
             //add item to array
@@ -29,7 +27,9 @@ public class Bag {                              ////VER SE NAO HA PROBLEMAS COM 
         }     
     }
 
-    public void RemoveItem(int index) {
+    public void RemoveItem(Item item) {
+        int index = ItemExists(item);
+
         if (quantity[index] > 1) {
             //remove item from array
             quantity[index]--;
